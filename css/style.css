@@ -167,6 +167,11 @@ p:last-child { margin-bottom: 0; }
   gap: 2rem;
   margin: 0;
   padding: 0;
+  /* The logo GIF parks its wordmark ~29% down its own canvas (the space above is
+     used by the fly-in animation, so it can't be cropped out). Centring the two
+     boxes therefore leaves the nav sitting low — this aligns the ink instead.
+     Measured against the 26px nav; re-measure if that size changes. */
+  transform: translateY(-4.7px);
 }
 
 /* Sized and weighted to sit alongside the logo mark rather than out-shout it:
@@ -175,7 +180,7 @@ p:last-child { margin-bottom: 0; }
   font-family: var(--font-display);
   font-weight: 400;
   text-transform: uppercase;
-  font-size: 1.75rem;
+  font-size: 1.625rem;
   letter-spacing: .03em;
   color: var(--accent);
   text-decoration: none;
@@ -183,7 +188,7 @@ p:last-child { margin-bottom: 0; }
      it grows inward, and anything heavier closes the counters in A, B and O.
      The shadow carries the depth instead. */
   -webkit-text-stroke: .75px var(--outline);
-  text-shadow: -1px 1px var(--outline), -2px 2px var(--outline);
+  text-shadow: -.75px .75px var(--outline), -1.5px 1.5px var(--outline);
   transition: transform .12s ease;
   display: inline-block;
 }
@@ -201,7 +206,8 @@ p:last-child { margin-bottom: 0; }
     display: none;
   }
   .site-nav[data-open="true"] { display: block; }
-  .site-nav ul { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  /* No logo to align to once the menu is a dropdown. */
+  .site-nav ul { flex-direction: column; align-items: flex-start; gap: 1rem; transform: none; }
   .site-nav a { font-size: 2rem; }
 }
 
