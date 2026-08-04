@@ -175,15 +175,15 @@ p:last-child { margin-bottom: 0; }
   font-family: var(--font-display);
   font-weight: 400;
   text-transform: uppercase;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   letter-spacing: .03em;
   color: var(--accent);
   text-decoration: none;
-  /* Stroke and shadow are both half the display-type values. -webkit-text-stroke
-     centres on the glyph edge, so half of it grows inward — at 1.5px it was
-     closing the counters in A, B and O at this size. */
+  /* Stroke stays thin: -webkit-text-stroke centres on the glyph edge, so half of
+     it grows inward, and anything heavier closes the counters in A, B and O.
+     The shadow carries the depth instead. */
   -webkit-text-stroke: .75px var(--outline);
-  text-shadow: -.5px .5px var(--outline), -1px 1px var(--outline);
+  text-shadow: -1px 1px var(--outline), -2px 2px var(--outline);
   transition: transform .12s ease;
   display: inline-block;
 }
@@ -531,7 +531,6 @@ p:last-child { margin-bottom: 0; }
   align-items: start;
 }
 .about-photo {
-  border: 2px solid var(--accent);
   border-radius: var(--radius);
   overflow: hidden;
   margin: 0;

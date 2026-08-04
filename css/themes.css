@@ -23,6 +23,17 @@
   -webkit-text-stroke-width: 0;
 }
 
+/* Card hover outline goes white to match the titles. */
+:root[data-theme="b"] .card:hover,
+:root[data-theme="b"] .card:focus-within {
+  border-color: var(--white);
+}
+/* Touch/narrow keeps the outline on permanently (no hover to reveal it), so it
+   needs the same colour there or B would still show a yellow frame on phones. */
+@media (hover: none), (max-width: 768px) {
+  :root[data-theme="b"] .card { border-color: var(--white); }
+}
+
 /* Contact: labels and the input rules go white; what you type is navy. */
 :root[data-theme="b"] .field label {
   color: var(--white);
