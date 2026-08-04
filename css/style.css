@@ -34,13 +34,20 @@
   src: url('../assets/fonts/poppins-700.woff2') format('woff2');
 }
 
+/* ---------------------------------------------------------------------------
+   Theme A (default). themes.css defines B and C by overriding ONLY these tokens
+   — no rule below this block needs to change to restyle the whole site.
+   --------------------------------------------------------------------------- */
 :root {
-  --blue:   #0073FF;  /* page background */
-  --yellow: #FFEA49;  /* accent — headings, borders, buttons */
-  --navy:   #0A1D54;  /* stroke + drop shadow behind display type */
-  --mint:   #EDFFEF;  /* logo default fill */
-  --cyan:   #A5FFFF;
-  --teal:   #50BDB8;
+  --bg:      #0073FF;               /* page background */
+  --ink:     #ffffff;               /* body text */
+  --accent:  #FFEA49;               /* headings, borders, buttons */
+  --outline: #0A1D54;               /* display stroke/shadow; text on accent fills */
+  --muted:   #A5FFFF;               /* secondary text, input underlines */
+  --mark:    #EDFFEF;               /* SYMBOL default fill */
+  --mark-hover: #0A1D54;            /* SYMBOL hover fill */
+  --focus:   #EDFFEF;               /* focus ring */
+  --well:    rgba(10, 29, 84, .35); /* backing behind video slots */
 
   --font-display: 'Cubano', 'Display Fallback', system-ui, sans-serif;
   --font-body: 'Poppins', system-ui, -apple-system, sans-serif;
@@ -56,8 +63,8 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background: var(--blue);
-  color: #fff;
+  background: var(--bg);
+  color: var(--ink);
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 1.0625rem;
@@ -81,8 +88,8 @@ a { color: inherit; }
   position: absolute;
   left: -9999px;
   top: 0;
-  background: var(--yellow);
-  color: var(--navy);
+  background: var(--accent);
+  color: var(--outline);
   padding: .75rem 1.25rem;
   z-index: 999;
 }
@@ -104,12 +111,12 @@ h1, h2, h3, .display {
   font-family: var(--font-display);
   font-weight: 400;
   text-transform: uppercase;
-  color: var(--yellow);
+  color: var(--accent);
   line-height: 1.05;
   letter-spacing: .02em;
   margin: 0 0 .5em;
-  -webkit-text-stroke: 2px var(--navy);
-  text-shadow: -1px 1px var(--navy), -2px 2px var(--navy), -3px 3px var(--navy);
+  -webkit-text-stroke: 2px var(--outline);
+  text-shadow: -1px 1px var(--outline), -2px 2px var(--outline), -3px 3px var(--outline);
 }
 h1 { font-size: clamp(2.25rem, 6vw, 4rem); }
 h2 { font-size: clamp(1.75rem, 4vw, 2.75rem); }
@@ -127,7 +134,7 @@ p:last-child { margin-bottom: 0; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--blue);
+  background: var(--bg);
   padding-block: 1.25rem;
 }
 
@@ -150,7 +157,7 @@ p:last-child { margin-bottom: 0; }
   line-height: 0;
 }
 .nav-toggle svg { display: block; }
-.nav-toggle rect { fill: var(--yellow); stroke: var(--navy); stroke-width: 2; }
+.nav-toggle rect { fill: var(--accent); stroke: var(--outline); stroke-width: 2; }
 
 .site-nav ul {
   list-style: none;
@@ -169,23 +176,23 @@ p:last-child { margin-bottom: 0; }
   text-transform: uppercase;
   font-size: 1.5rem;
   letter-spacing: .03em;
-  color: var(--yellow);
+  color: var(--accent);
   text-decoration: none;
-  -webkit-text-stroke: 1.5px var(--navy);
-  text-shadow: -1px 1px var(--navy), -2px 2px var(--navy);
+  -webkit-text-stroke: 1.5px var(--outline);
+  text-shadow: -1px 1px var(--outline), -2px 2px var(--outline);
   transition: transform .12s ease;
   display: inline-block;
 }
 .site-nav a:hover,
 .site-nav a:focus-visible { transform: translateY(-2px); }
-.site-nav a[aria-current="page"] { color: var(--mint); }
+.site-nav a[aria-current="page"] { color: var(--mark); }
 
 @media (max-width: 768px) {
   .nav-toggle { display: block; }
   .site-nav {
     position: absolute;
     inset: 100% 0 auto;
-    background: var(--blue);
+    background: var(--bg);
     padding: 1rem var(--gutter) 2rem;
     display: none;
   }
@@ -211,7 +218,7 @@ p:last-child { margin-bottom: 0; }
   font-size: clamp(1.05rem, 2vw, 1.3rem);
   margin-bottom: 2rem;
 }
-.page-intro strong { color: var(--yellow); }
+.page-intro strong { color: var(--accent); }
 
 /* --- Reel embed ---------------------------------------------------------- */
 .embed-16x9 {
@@ -219,7 +226,7 @@ p:last-child { margin-bottom: 0; }
   aspect-ratio: 16 / 9;
   border-radius: var(--radius);
   overflow: hidden;
-  background: rgba(10, 29, 84, .35);
+  background: var(--well);
 }
 .embed-16x9 iframe {
   position: absolute;
@@ -250,14 +257,14 @@ p:last-child { margin-bottom: 0; }
   transition: transform .18s ease, border-color .18s ease;
 }
 .card:hover,
-.card:focus-within { transform: translateY(-4px); border-color: var(--yellow); }
+.card:focus-within { transform: translateY(-4px); border-color: var(--accent); }
 
 /* Touch devices never fire :hover, so a hover-only outline would leave the cards
    with no visible affordance at all — show it permanently there instead. The
    width clause is a safety net: `hover: none` keys off input capability, not
    screen size, so it alone wouldn't catch a device that misreports itself. */
 @media (hover: none), (max-width: 768px) {
-  .card { border-color: var(--yellow); }
+  .card { border-color: var(--accent); }
   .card:hover { transform: none; }
 }
 
@@ -289,7 +296,7 @@ p:last-child { margin-bottom: 0; }
 .card h3 {
   font-size: clamp(1.6rem, 3vw, 2.25rem);
   margin-bottom: .6rem;
-  text-shadow: -1px 1px var(--navy), -2px 2px var(--navy);
+  text-shadow: -1px 1px var(--outline), -2px 2px var(--outline);
 }
 .card p { font-size: .98rem; }
 .card__body { flex: 1; }
@@ -305,19 +312,19 @@ p:last-child { margin-bottom: 0; }
   -webkit-appearance: none;
   appearance: none;
   cursor: pointer;
-  border: 2px solid var(--yellow);
+  border: 2px solid var(--accent);
   border-radius: 999px;
   font-family: var(--font-display);
   font-size: 1.05rem;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--yellow);
+  color: var(--accent);
   text-decoration: none;
   text-align: center;
   transition: background .18s ease, color .18s ease;
 }
 .btn:hover,
-.btn:focus-visible { background: var(--yellow); color: var(--navy); }
+.btn:focus-visible { background: var(--accent); color: var(--outline); }
 
 /* --- Project list (video pages) ------------------------------------------ */
 /* Caption sits tight under its own video, with a much larger gap to the next
@@ -339,7 +346,7 @@ p:last-child { margin-bottom: 0; }
 .project p { max-width: 62ch; }
 .project__note {
   font-size: .95rem;
-  color: var(--cyan);
+  color: var(--muted);
   font-style: italic;
 }
 
@@ -353,7 +360,7 @@ p:last-child { margin-bottom: 0; }
   aspect-ratio: var(--ar, 16 / 9);
   border-radius: var(--radius);
   overflow: hidden;
-  background: rgba(10, 29, 84, .35);
+  background: var(--well);
 }
 .video-slot--tall { max-width: 34rem; }
 
@@ -376,8 +383,8 @@ p:last-child { margin-bottom: 0; }
   border-radius: inherit;
   background: repeating-linear-gradient(
     45deg,
-    rgba(10, 29, 84, .35) 0 12px,
-    rgba(10, 29, 84, .5) 12px 24px
+    var(--well) 0 12px,
+    color-mix(in srgb, var(--well) 70%, #000) 12px 24px
   );
 }
 .video-slot[data-state="missing"] video { display: none; }
@@ -385,11 +392,11 @@ p:last-child { margin-bottom: 0; }
 .video-slot__fallback strong {
   font-family: var(--font-display);
   font-size: 1.25rem;
-  color: var(--yellow);
+  color: var(--accent);
   text-transform: uppercase;
   letter-spacing: .05em;
 }
-.video-slot__fallback span { font-size: .9rem; color: var(--cyan); }
+.video-slot__fallback span { font-size: .9rem; color: var(--muted); }
 
 /* --- SYMBOL logo grid ----------------------------------------------------
    Hover-swap ported from the Squarespace custom CSS: a mint "default" SVG
@@ -435,8 +442,10 @@ p:last-child { margin-bottom: 0; }
 .logo-link.mobile-hover .logo-hover { opacity: 1; }
 
 .logo-svg { width: 100%; height: 100%; display: block; }
-.logo-default .logo-path { fill: var(--mint); transition: fill .3s ease; }
-.logo-hover   .logo-path { fill: var(--navy); transition: fill .3s ease; }
+.logo-default .logo-path { fill: var(--mark); transition: fill .3s ease; }
+/* Own token rather than reusing --outline: on a dark theme the outline colour is
+   near-black, which would make the hover state vanish into the background. */
+.logo-hover   .logo-path { fill: var(--mark-hover); transition: fill .3s ease; }
 
 /* --- Contact form -------------------------------------------------------- */
 .contact-layout {
@@ -470,20 +479,20 @@ p:last-child { margin-bottom: 0; }
 .field label {
   display: block;
   font-weight: 700;
-  color: var(--yellow);
+  color: var(--accent);
   margin-bottom: .35rem;
 }
-.field .req { color: var(--cyan); font-weight: 600; opacity: .8; }
+.field .req { color: var(--muted); font-weight: 600; opacity: .8; }
 
 /* Underline-only inputs, matching the original form's look. */
 .field input,
 .field textarea {
   width: 100%;
   font: inherit;
-  color: #fff;
+  color: var(--ink);
   background: transparent;
   border: 0;
-  border-bottom: 2px solid var(--cyan);
+  border-bottom: 2px solid var(--muted);
   border-radius: 0;
   padding: .65rem .25rem;
   transition: border-color .18s ease;
@@ -491,9 +500,9 @@ p:last-child { margin-bottom: 0; }
 .field textarea { resize: vertical; min-height: 8rem; }
 
 .field input:hover,
-.field textarea:hover { border-bottom-color: #fff; }
+.field textarea:hover { border-bottom-color: var(--ink); }
 .field input:focus,
-.field textarea:focus { border-bottom-color: var(--yellow); }
+.field textarea:focus { border-bottom-color: var(--accent); }
 
 /* :invalid on its own would flag every empty required field on page load, so the
    error state only appears after a submit has been attempted. */
@@ -508,7 +517,7 @@ p:last-child { margin-bottom: 0; }
   text-align: center;
   min-height: 1.5em;
 }
-.form-status[data-state="ok"]    { color: var(--mint); }
+.form-status[data-state="ok"]    { color: var(--mark); }
 .form-status[data-state="error"] { color: #ffc9c9; }
 
 /* --- About --------------------------------------------------------------- */
@@ -519,7 +528,7 @@ p:last-child { margin-bottom: 0; }
   align-items: start;
 }
 .about-photo {
-  border: 2px solid var(--yellow);
+  border: 2px solid var(--accent);
   border-radius: var(--radius);
   overflow: hidden;
   margin: 0;
@@ -536,7 +545,7 @@ p:last-child { margin-bottom: 0; }
 /* --- Footer -------------------------------------------------------------- */
 .site-footer {
   padding-block: clamp(2.5rem, 6vw, 4rem);
-  border-top: 2px solid var(--yellow);
+  border-top: 2px solid var(--accent);
   margin-top: clamp(3rem, 8vw, 5rem);
 }
 .site-footer__inner {
@@ -559,16 +568,16 @@ p:last-child { margin-bottom: 0; }
   place-items: center;
   width: 44px;
   height: 44px;
-  border: 2px solid var(--yellow);
+  border: 2px solid var(--accent);
   border-radius: 50%;
-  color: var(--yellow);
+  color: var(--accent);
   transition: background .18s ease, color .18s ease;
 }
 .social a:hover,
-.social a:focus-visible { background: var(--yellow); color: var(--navy); }
+.social a:focus-visible { background: var(--accent); color: var(--outline); }
 .social svg { width: 20px; height: 20px; fill: currentColor; }
 
-.site-footer small { color: var(--cyan); font-size: .9rem; }
+.site-footer small { color: var(--muted); font-size: .9rem; }
 
 /* --- Focus visibility ---------------------------------------------------- */
-:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }

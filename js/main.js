@@ -35,6 +35,7 @@
     });
   }
 
+  initThemes();
   initContactForm();
 
   /* --- Video slots --------------------------------------------------------
@@ -109,6 +110,54 @@
   }, { rootMargin: '200px 0px' });
 
   slots.forEach(function (slot) { io.observe(slot); });
+
+  /* --- Theme A/B/C --------------------------------------------------------
+     Applies ?theme=b|c (remembered afterwards) and, on localhost only, drops a
+     small switcher in the corner. Theme A needs no attribute — it's the default
+     in style.css, so the site renders correctly even if this never runs. */
+  function initThemes() {
+    var THEMES = ['a', 'b', 'c'];
+    var root = document.documentElement;
+    var store = {
+      get: function () { try { return localStorage.getItem('am-theme'); } catch (e) { return null; } },
+      set: function (v) { try { localStorage.setItem('am-theme', v); } catch (e) {} }
+    };
+
+    var apply = function (t) {
+      if (t === 'a') root.removeAttribute('data-theme');
+      else root.setAttribute('data-theme', t);
+      store.set(t);
+      var sw = document.querySelector('.theme-switch');
+      if (sw) {
+        sw.querySelectorAll('button').forEach(function (b) {
+          b.setAttribute('aria-pressed', String(b.dataset.theme === t));
+        });
+      }
+    };
+
+    var fromUrl = (location.search.match(/[?&]theme=([abc])\b/i) || [])[1];
+    var current = (fromUrl || store.get() || 'a').toLowerCase();
+    if (THEMES.indexOf(current) === -1) current = 'a';
+    apply(current);
+
+    var isLocal = ['localhost', '127.0.0.1', ''].indexOf(location.hostname) !== -1;
+    if (!isLocal) return;
+
+    var bar = document.createElement('div');
+    bar.className = 'theme-switch';
+    bar.setAttribute('aria-label', 'Preview theme');
+    THEMES.forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.theme = t;
+      b.textContent = t.toUpperCase();
+      b.title = 'Theme ' + t.toUpperCase();
+      b.addEventListener('click', function () { apply(t); });
+      bar.appendChild(b);
+    });
+    document.body.appendChild(bar);
+    apply(current);
+  }
 
   /* --- Contact form -------------------------------------------------------
      Submits to Formspree over fetch so the visitor stays on the page and gets an

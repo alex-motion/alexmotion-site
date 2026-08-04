@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Alternate looks — A/B/C
+
+   Theme A is the default and lives in style.css. B and C below override only
+   the token block; no structural rule is duplicated, so a layout fix made once
+   applies to all three looks.
+
+   Switch by adding ?theme=b (or c) to any URL, or use the switcher that appears
+   in the corner on localhost. The choice sticks until you pick another.
+
+   To add a theme D: copy a block, rename the selector, adjust the values.
+   ========================================================================== */
+
+/* --- B · Night ------------------------------------------------------------
+   Same palette turned down: navy ground, mint text, yellow doing the pointing.
+   Quieter and moodier — the work supplies the colour instead of the page. */
+:root[data-theme="b"] {
+  --bg:         #0A1D54;
+  --ink:        #EDFFEF;
+  --accent:     #FFEA49;
+  --outline:    #04102E;              /* near-black, so type still cuts on navy */
+  --muted:      #7FA9D6;
+  --mark:       #EDFFEF;
+  --mark-hover: #FFEA49;              /* yellow, not the outline — stays visible */
+  --focus:      #FFEA49;
+  --well:       rgba(0, 0, 0, .35);
+}
+
+/* --- C · Paper ------------------------------------------------------------
+   Inverted: light ground, navy display type outlined in yellow. Reads more
+   editorial/print, and lets the video thumbnails carry the colour. */
+:root[data-theme="c"] {
+  --bg:         #EDFFEF;
+  --ink:        #0A1D54;
+  --accent:     #0A1D54;              /* yellow is too weak on a light ground */
+  --outline:    #FFEA49;              /* so the stroke becomes the yellow */
+  --muted:      #4A6BC4;
+  --mark:       #0A1D54;
+  --mark-hover: #0073FF;
+  --focus:      #0073FF;
+  --well:       rgba(10, 29, 84, .12);
+}
+
+/* The site logo and card thumbnails are fixed-colour GIFs (yellow + navy) baked
+   for the blue ground. They sit fine on B, but on C's light ground the yellow
+   loses contrast — those assets would need re-exporting to finish that look. */
+
+/* --- Dev-only theme switcher ---------------------------------------------
+   Injected by js/main.js on localhost only, so it never ships. */
+.theme-switch {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 999;
+  display: flex;
+  gap: .25rem;
+  padding: .3rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .6);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-body);
+}
+.theme-switch button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: transparent;
+  color: #fff;
+  font-weight: 700;
+  font-size: .85rem;
+  cursor: pointer;
+  line-height: 1;
+}
+.theme-switch button[aria-pressed="true"] {
+  background: #fff;
+  color: #000;
+}
