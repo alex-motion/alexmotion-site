@@ -177,6 +177,28 @@
       else status.removeAttribute('data-state');
     };
 
+    /* Native constraint validation does the popup for us — this only replaces the
+       generic "Please fill out this field" with the field's own name. The message
+       is read off the <label>, so it stays correct if a label is reworded.
+
+       These live on 'invalid' rather than 'submit' because a browser that fails
+       validation shows its bubble and never fires 'submit' at all. */
+    form.querySelectorAll('input[required], textarea[required]').forEach(function (el) {
+      var labelEl = form.querySelector('label[for="' + el.id + '"]');
+      var name = labelEl ? labelEl.textContent.trim() : 'This field';
+
+      el.addEventListener('invalid', function () {
+        form.setAttribute('data-submitted', 'true');
+        el.setCustomValidity(el.validity.typeMismatch
+          ? 'Enter a valid email address'
+          : name + ' required');
+      });
+
+      // Must clear on input: a lingering custom message keeps the field invalid
+      // forever, so the form could never be submitted once it had failed once.
+      el.addEventListener('input', function () { el.setCustomValidity(''); });
+    });
+
     form.addEventListener('submit', function (e) {
       // Surfaces the :invalid styling only after a real submit attempt.
       form.setAttribute('data-submitted', 'true');

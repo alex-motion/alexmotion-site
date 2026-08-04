@@ -1,49 +1,59 @@
 /* ==========================================================================
    Alternate looks — A/B/C
 
-   Theme A is the default and lives in style.css. B and C below override only
-   the token block; no structural rule is duplicated, so a layout fix made once
-   applies to all three looks.
+   A is the baseline and lives entirely in style.css. B and C below layer on top
+   of it, so structure is never duplicated: a layout fix made once applies to
+   every look.
 
-   Switch by adding ?theme=b (or c) to any URL, or use the switcher that appears
-   in the corner on localhost. The choice sticks until you pick another.
-
-   To add a theme D: copy a block, rename the selector, adjust the values.
+   Switch with ?theme=b (or c) on any URL, or the A/B/C switcher that appears in
+   the corner on localhost. The choice sticks until you pick another.
    ========================================================================== */
 
-/* --- B · Night ------------------------------------------------------------
-   Same palette turned down: navy ground, mint text, yellow doing the pointing.
-   Quieter and moodier — the work supplies the colour instead of the page. */
-:root[data-theme="b"] {
-  --bg:         #0A1D54;
-  --ink:        #EDFFEF;
-  --accent:     #FFEA49;
-  --outline:    #04102E;              /* near-black, so type still cuts on navy */
-  --muted:      #7FA9D6;
-  --mark:       #EDFFEF;
-  --mark-hover: #FFEA49;              /* yellow, not the outline — stays visible */
-  --focus:      #FFEA49;
-  --well:       rgba(0, 0, 0, .35);
+/* --- B ---------------------------------------------------------------------
+   Type-only variant. "White" here is the minty off-white #EDFFEE (--white).
+   Nothing below changes a background or a brand colour — only how type reads.
+   --------------------------------------------------------------------------- */
+
+/* Home cards: white fill, no drop shadow, and the outline white too — so the
+   stroke thickens the letterform instead of drawing a contrasting edge. */
+:root[data-theme="b"] .card h3 {
+  color: var(--white);
+  text-shadow: none;
+  -webkit-text-stroke-color: var(--white);
 }
 
-/* --- C · Paper ------------------------------------------------------------
-   Inverted: light ground, navy display type outlined in yellow. Reads more
-   editorial/print, and lets the video thumbnails carry the colour. */
-:root[data-theme="c"] {
-  --bg:         #EDFFEF;
-  --ink:        #0A1D54;
-  --accent:     #0A1D54;              /* yellow is too weak on a light ground */
-  --outline:    #FFEA49;              /* so the stroke becomes the yellow */
-  --muted:      #4A6BC4;
-  --mark:       #0A1D54;
-  --mark-hover: #0073FF;
-  --focus:      #0073FF;
-  --well:       rgba(10, 29, 84, .12);
+/* Project pages: video titles go white. The page <h1> is deliberately left
+   alone so it still leads the page. */
+:root[data-theme="b"] .project h3 {
+  color: var(--white);
 }
 
-/* The site logo and card thumbnails are fixed-colour GIFs (yellow + navy) baked
-   for the blue ground. They sit fine on B, but on C's light ground the yellow
-   loses contrast — those assets would need re-exporting to finish that look. */
+/* Contact: labels and the input rules go white; what you type is navy. */
+:root[data-theme="b"] .field label {
+  color: var(--white);
+}
+:root[data-theme="b"] .field input,
+:root[data-theme="b"] .field textarea {
+  border-bottom-color: var(--white);
+  color: var(--outline);          /* navy */
+  caret-color: var(--outline);
+}
+:root[data-theme="b"] .field input:hover,
+:root[data-theme="b"] .field textarea:hover {
+  border-bottom-color: var(--white);
+}
+/* Focus stays yellow: with white rules as the resting state, the accent is what
+   makes "this is the field you're in" readable at a glance. */
+:root[data-theme="b"] .field input:focus,
+:root[data-theme="b"] .field textarea:focus {
+  border-bottom-color: var(--accent);
+}
+
+/* --- C ---------------------------------------------------------------------
+   Empty and ready. Add rules the same way as B, prefixed
+   :root[data-theme="c"] — then flip between all three with the switcher.
+   --------------------------------------------------------------------------- */
+
 
 /* --- Dev-only theme switcher ---------------------------------------------
    Injected by js/main.js on localhost only, so it never ships. */

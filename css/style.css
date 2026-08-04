@@ -46,6 +46,7 @@
   --muted:   #A5FFFF;               /* secondary text, input underlines */
   --mark:    #EDFFEF;               /* SYMBOL default fill */
   --mark-hover: #0A1D54;            /* SYMBOL hover fill */
+  --white:   #EDFFEE;               /* the minty off-white, referred to as "white" */
   --focus:   #EDFFEF;               /* focus ring */
   --well:    rgba(10, 29, 84, .35); /* backing behind video slots */
 
@@ -482,7 +483,6 @@ p:last-child { margin-bottom: 0; }
   color: var(--accent);
   margin-bottom: .35rem;
 }
-.field .req { color: var(--muted); font-weight: 600; opacity: .8; }
 
 /* Underline-only inputs, matching the original form's look. */
 .field input,
