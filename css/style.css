@@ -1,0 +1,574 @@
+/* ==========================================================================
+   AlexMotion — global stylesheet
+   Palette + type lifted from the live Squarespace theme (see CONTENT.md).
+   ========================================================================== */
+
+/* --- Fonts ---------------------------------------------------------------
+   Poppins is SIL OFL, so it is self-hosted here.
+   Cubano is an Adobe Fonts (Typekit) face and CANNOT be self-hosted — add the
+   site's own Adobe Fonts kit <link> in each page's <head>, and Cubano will
+   pick up automatically via --font-display. Until then it falls back to
+   Poppins 700, which keeps the layout intact.
+   ------------------------------------------------------------------------ */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/poppins-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/poppins-700.woff2') format('woff2');
+}
+/* Stand-in for Cubano (which is weight 400 only). Poppins Bold is remapped to
+   weight 400 so the display stack never triggers faux-bolding on real Cubano. */
+@font-face {
+  font-family: 'Display Fallback';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/poppins-700.woff2') format('woff2');
+}
+
+:root {
+  --blue:   #0073FF;  /* page background */
+  --yellow: #FFEA49;  /* accent — headings, borders, buttons */
+  --navy:   #0A1D54;  /* stroke + drop shadow behind display type */
+  --mint:   #EDFFEF;  /* logo default fill */
+  --cyan:   #A5FFFF;
+  --teal:   #50BDB8;
+
+  --font-display: 'Cubano', 'Display Fallback', system-ui, sans-serif;
+  --font-body: 'Poppins', system-ui, -apple-system, sans-serif;
+
+  --wrap: 1200px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --radius: 20px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--blue);
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* height:auto is required — the width/height attributes on <img> would otherwise
+   hold the intrinsic height while max-width shrinks the width, stretching them. */
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--yellow);
+  color: var(--navy);
+  padding: .75rem 1.25rem;
+  z-index: 999;
+}
+.skip-link:focus { left: 0; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --- Display type --------------------------------------------------------
+   Yellow fill, navy outline, stacked navy offset shadow — the signature look.
+   ------------------------------------------------------------------------ */
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--yellow);
+  line-height: 1.05;
+  letter-spacing: .02em;
+  margin: 0 0 .5em;
+  -webkit-text-stroke: 2px var(--navy);
+  text-shadow: -1px 1px var(--navy), -2px 2px var(--navy), -3px 3px var(--navy);
+}
+h1 { font-size: clamp(2.25rem, 6vw, 4rem); }
+h2 { font-size: clamp(1.75rem, 4vw, 2.75rem); }
+h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
+
+@media (max-width: 768px) {
+  h1, h2, h3, .display { -webkit-text-stroke-width: 1px; }
+}
+
+p { margin: 0 0 1.15em; }
+p:last-child { margin-bottom: 0; }
+
+/* --- Header / nav -------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--blue);
+  padding-block: 1.25rem;
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-logo { display: block; flex: 0 0 auto; }
+.site-logo img { width: 200px; height: auto; }
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 0;
+  padding: .25rem;
+  cursor: pointer;
+  line-height: 0;
+}
+.nav-toggle svg { display: block; }
+.nav-toggle rect { fill: var(--yellow); stroke: var(--navy); stroke-width: 2; }
+
+.site-nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* Sized and weighted to sit alongside the logo mark rather than out-shout it:
+   smaller than the page headings, with a 2-layer shadow instead of the 3-layer stack. */
+.site-nav a {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  letter-spacing: .03em;
+  color: var(--yellow);
+  text-decoration: none;
+  -webkit-text-stroke: 1.5px var(--navy);
+  text-shadow: -1px 1px var(--navy), -2px 2px var(--navy);
+  transition: transform .12s ease;
+  display: inline-block;
+}
+.site-nav a:hover,
+.site-nav a:focus-visible { transform: translateY(-2px); }
+.site-nav a[aria-current="page"] { color: var(--mint); }
+
+@media (max-width: 768px) {
+  .nav-toggle { display: block; }
+  .site-nav {
+    position: absolute;
+    inset: 100% 0 auto;
+    background: var(--blue);
+    padding: 1rem var(--gutter) 2rem;
+    display: none;
+  }
+  .site-nav[data-open="true"] { display: block; }
+  .site-nav ul { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .site-nav a { font-size: 2rem; }
+}
+
+/* --- Sections ------------------------------------------------------------ */
+.section { padding-block: clamp(3rem, 8vw, 6rem); }
+.section--tight { padding-block: clamp(2rem, 5vw, 3.5rem); }
+
+.lede {
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  font-style: italic;
+  text-align: center;
+  max-width: 46ch;
+  margin-inline: auto;
+}
+
+.page-intro {
+  max-width: 60ch;
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  margin-bottom: 2rem;
+}
+.page-intro strong { color: var(--yellow); }
+
+/* --- Reel embed ---------------------------------------------------------- */
+.embed-16x9 {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: rgba(10, 29, 84, .35);
+}
+.embed-16x9 iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* --- Category cards ------------------------------------------------------ */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* The whole card is the link, so the outline is a hover affordance rather than a
+   permanent frame. Border stays in the box model as `transparent` so revealing it
+   costs no layout shift. :focus-within covers keyboard users. */
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  transition: transform .18s ease, border-color .18s ease;
+}
+.card:hover,
+.card:focus-within { transform: translateY(-4px); border-color: var(--yellow); }
+
+/* Touch devices never fire :hover, so a hover-only outline would leave the cards
+   with no visible affordance at all — show it permanently there instead. The
+   width clause is a safety net: `hover: none` keys off input capability, not
+   screen size, so it alone wouldn't catch a device that misreports itself. */
+@media (hover: none), (max-width: 768px) {
+  .card { border-color: var(--yellow); }
+  .card:hover { transform: none; }
+}
+
+/* Padding lives on the link, not the card — otherwise the card's padding band is
+   a dead zone that swallows clicks near the edge. */
+.card__link {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.25rem;
+  border-radius: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+.card__link:focus-visible { outline: none; }
+
+.card__media {
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  margin-bottom: 1.25rem;
+}
+.card__media img { width: 100%; height: 100%; object-fit: contain; }
+
+/* Bigger than the base h3, with a shorter 2-layer shadow instead of the 3-layer
+   stack used on page headings. */
+.card h3 {
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  margin-bottom: .6rem;
+  text-shadow: -1px 1px var(--navy), -2px 2px var(--navy);
+}
+.card p { font-size: .98rem; }
+.card__body { flex: 1; }
+
+/* --- Buttons ------------------------------------------------------------- */
+/* background/appearance/cursor are resets for when .btn is on a real <button> —
+   without them the UA's default grey-white button face shows through. */
+.btn {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: .85rem 2rem;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  border: 2px solid var(--yellow);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  text-decoration: none;
+  text-align: center;
+  transition: background .18s ease, color .18s ease;
+}
+.btn:hover,
+.btn:focus-visible { background: var(--yellow); color: var(--navy); }
+
+/* --- Project list (video pages) ------------------------------------------ */
+/* Caption sits tight under its own video, with a much larger gap to the next
+   project — so it reads as belonging above, not floating between the two. */
+.projects {
+  display: grid;
+  gap: clamp(4rem, 9vw, 7.5rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.project__media { margin-bottom: .8rem; }
+
+.project h3 {
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  margin-bottom: .4rem;
+}
+.project p { max-width: 62ch; }
+.project__note {
+  font-size: .95rem;
+  color: var(--cyan);
+  font-style: italic;
+}
+
+/* Video slot — real <video> when the file exists, styled placeholder until then.
+   js/main.js flips [data-state] to "missing" if the source fails to load. */
+/* --ar carries each clip's real aspect ratio (set inline per slot) so square and
+   portrait pieces aren't cropped into a 16:9 hole. Square/portrait slots are also
+   width-capped, otherwise a 1:1 clip would render as tall as the column is wide. */
+.video-slot {
+  position: relative;
+  aspect-ratio: var(--ar, 16 / 9);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: rgba(10, 29, 84, .35);
+}
+.video-slot--tall { max-width: 34rem; }
+
+.video-slot video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.video-slot__fallback {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: 1.5rem;
+  text-align: center;
+  border-radius: inherit;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(10, 29, 84, .35) 0 12px,
+    rgba(10, 29, 84, .5) 12px 24px
+  );
+}
+.video-slot[data-state="missing"] video { display: none; }
+.video-slot[data-state="missing"] .video-slot__fallback { display: flex; }
+.video-slot__fallback strong {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--yellow);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.video-slot__fallback span { font-size: .9rem; color: var(--cyan); }
+
+/* --- SYMBOL logo grid ----------------------------------------------------
+   Hover-swap ported from the Squarespace custom CSS: a mint "default" SVG
+   cross-fades to a navy "hover" SVG. Touch devices get .mobile-hover via JS.
+   ------------------------------------------------------------------------ */
+.logo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.logo-link {
+  display: block;
+  width: 100%;
+  transition: transform .1s ease;
+  touch-action: manipulation;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.logo-link:hover { transform: scale(1.05); }
+.logo-link:active { transform: scale(.95); }
+
+.logo-swap-container { position: relative; width: 100%; padding-top: 100%; }
+
+.logo-state {
+  position: absolute;
+  inset: 0;
+  transition: opacity .3s ease;
+}
+.logo-default { opacity: 1; z-index: 1; }
+.logo-hover   { opacity: 0; z-index: 2; }
+
+.logo-link:hover .logo-default,
+.logo-link:focus-visible .logo-default,
+.logo-link.mobile-hover .logo-default { opacity: 0; }
+.logo-link:hover .logo-hover,
+.logo-link:focus-visible .logo-hover,
+.logo-link.mobile-hover .logo-hover { opacity: 1; }
+
+.logo-svg { width: 100%; height: 100%; display: block; }
+.logo-default .logo-path { fill: var(--mint); transition: fill .3s ease; }
+.logo-hover   .logo-path { fill: var(--navy); transition: fill .3s ease; }
+
+/* --- Contact form -------------------------------------------------------- */
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, .75fr) minmax(0, 1.6fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .contact-layout { grid-template-columns: 1fr; }
+}
+
+.contact-form { max-width: 46rem; }
+
+/* The "Name" legend is visually hidden (see contact.html) — the First/Last labels
+   already carry it on screen, so there's no visible legend styling here. */
+.field-group { border: 0; padding: 0; margin: 0 0 1.75rem; }
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+@media (max-width: 600px) {
+  .field-row { grid-template-columns: 1fr; }
+}
+
+.field { margin-bottom: 1.75rem; }
+.field-row .field { margin-bottom: 0; }
+
+.field label {
+  display: block;
+  font-weight: 700;
+  color: var(--yellow);
+  margin-bottom: .35rem;
+}
+.field .req { color: var(--cyan); font-weight: 600; opacity: .8; }
+
+/* Underline-only inputs, matching the original form's look. */
+.field input,
+.field textarea {
+  width: 100%;
+  font: inherit;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid var(--cyan);
+  border-radius: 0;
+  padding: .65rem .25rem;
+  transition: border-color .18s ease;
+}
+.field textarea { resize: vertical; min-height: 8rem; }
+
+.field input:hover,
+.field textarea:hover { border-bottom-color: #fff; }
+.field input:focus,
+.field textarea:focus { border-bottom-color: var(--yellow); }
+
+/* :invalid on its own would flag every empty required field on page load, so the
+   error state only appears after a submit has been attempted. */
+.contact-form[data-submitted="true"] .field :invalid { border-bottom-color: #ff9b9b; }
+
+.form-actions { display: flex; justify-content: center; margin-top: 2.5rem; }
+.form-actions .btn { margin-top: 0; min-width: 14rem; }
+.btn[disabled] { opacity: .55; pointer-events: none; }
+
+.form-status {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  min-height: 1.5em;
+}
+.form-status[data-state="ok"]    { color: var(--mint); }
+.form-status[data-state="error"] { color: #ffc9c9; }
+
+/* --- About --------------------------------------------------------------- */
+.about-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+.about-photo {
+  border: 2px solid var(--yellow);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 0;
+}
+
+@media (max-width: 860px) {
+  .about-layout { grid-template-columns: 1fr; }
+  /* Stacked: keep the portrait from filling the whole viewport. */
+  .about-photo { max-width: 380px; margin-inline: auto; }
+}
+
+.about-body p { font-size: clamp(1rem, 1.9vw, 1.2rem); }
+
+/* --- Footer -------------------------------------------------------------- */
+.site-footer {
+  padding-block: clamp(2.5rem, 6vw, 4rem);
+  border-top: 2px solid var(--yellow);
+  margin-top: clamp(3rem, 8vw, 5rem);
+}
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.social {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.social a {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--yellow);
+  border-radius: 50%;
+  color: var(--yellow);
+  transition: background .18s ease, color .18s ease;
+}
+.social a:hover,
+.social a:focus-visible { background: var(--yellow); color: var(--navy); }
+.social svg { width: 20px; height: 20px; fill: currentColor; }
+
+.site-footer small { color: var(--cyan); font-size: .9rem; }
+
+/* --- Focus visibility ---------------------------------------------------- */
+:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }

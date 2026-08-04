@@ -1,0 +1,5 @@
+# Video masters are large and live in ~/Documents/_Jobs/... — regenerate with
+# the avconvert command in assets/video/README.md rather than versioning them.
+assets/video/*.mp4
+
+.DS_Store
