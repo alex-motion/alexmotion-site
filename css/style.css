@@ -179,8 +179,11 @@ p:last-child { margin-bottom: 0; }
   letter-spacing: .03em;
   color: var(--accent);
   text-decoration: none;
-  -webkit-text-stroke: 1.5px var(--outline);
-  text-shadow: -1px 1px var(--outline), -2px 2px var(--outline);
+  /* Stroke and shadow are both half the display-type values. -webkit-text-stroke
+     centres on the glyph edge, so half of it grows inward — at 1.5px it was
+     closing the counters in A, B and O at this size. */
+  -webkit-text-stroke: .75px var(--outline);
+  text-shadow: -.5px .5px var(--outline), -1px 1px var(--outline);
   transition: transform .12s ease;
   display: inline-block;
 }

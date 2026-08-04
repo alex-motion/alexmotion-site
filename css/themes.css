@@ -14,18 +14,13 @@
    Nothing below changes a background or a brand colour — only how type reads.
    --------------------------------------------------------------------------- */
 
-/* Home cards: white fill, no drop shadow, and the outline white too — so the
-   stroke thickens the letterform instead of drawing a contrasting edge. */
-:root[data-theme="b"] .card h3 {
-  color: var(--white);
-  text-shadow: none;
-  -webkit-text-stroke-color: var(--white);
-}
-
-/* Project pages: video titles go white. The page <h1> is deliberately left
-   alone so it still leads the page. */
+/* Home cards and project-page video titles: flat white, no stroke, no shadow.
+   The page <h1> on project pages is deliberately left alone so it still leads. */
+:root[data-theme="b"] .card h3,
 :root[data-theme="b"] .project h3 {
   color: var(--white);
+  text-shadow: none;
+  -webkit-text-stroke-width: 0;
 }
 
 /* Contact: labels and the input rules go white; what you type is navy. */
