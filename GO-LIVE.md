@@ -29,19 +29,18 @@ A is the fastest route to live. C is where this probably wants to end up.
 
 ---
 
-## 1. Contact form (Formspree)
+## 1. Contact form (Formspree) — done ✅
 
-1. Sign up at [formspree.io](https://formspree.io), create a form.
-2. Set its notification address to **alex@alexmotion.com** and confirm the
-   verification email Formspree sends you.
-3. Copy the endpoint — it looks like `https://formspree.io/f/abcdwxyz`.
-4. In `contact.html`, replace `YOUR_FORM_ID` in the `<form action>` with that ID.
+Wired to `https://formspree.io/f/mjybvyar`. Nothing left to change in the code.
 
-That's the only edit. Until it's done, Submit shows an inline "not connected yet"
-notice instead of posting into a dead endpoint.
+Two things to confirm on your side:
 
-Free tier is 50 submissions/month. Test it once after going live — including
-checking that **Reply** in your inbox goes back to the sender, not to Formspree.
+- **Confirm the verification email** Formspree sent when you created the form.
+  Until you click it, submissions are accepted but not delivered.
+- **Send one real test** once the site is live, and check that hitting **Reply**
+  in your inbox goes back to the sender — not to Formspree.
+
+Free tier is 50 submissions/month.
 
 ---
 

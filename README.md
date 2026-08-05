@@ -45,20 +45,18 @@ Lifted from the live Squarespace theme, defined in `css/style.css`:
 | `--mint` | `#EDFFEF` | SYMBOL default fill |
 | `--cyan` | `#A5FFFF` | Secondary/meta text |
 
-## Contact form — one step to go live
+## Contact form
 
-The form is built and styled; it just needs an endpoint. A static site can't send mail on
-its own, so submissions go through [Formspree](https://formspree.io):
+A static site can't send mail on its own, so submissions go through
+[Formspree](https://formspree.io), wired to `https://formspree.io/f/mjybvyar`.
 
-1. Sign up, create a form, set its notification address to **alex@alexmotion.com**.
-2. Formspree gives you an endpoint like `https://formspree.io/f/abcdwxyz`.
-3. In [`contact.html`](contact.html), replace `YOUR_FORM_ID` in the `<form action>` with
-   that ID. That's the only edit.
+This follows Formspree's **Basic HTML** integration — a plain `action` + `method="POST"` —
+rather than their `@formspree/ajax` library. The library's job is inline success/error
+states, a disabled button during submit and field-level messages, all of which `main.js`
+already does natively. Adding it would mean a runtime dependency on a CDN and rewriting the
+markup with `data-fs-*` attributes for no behavioural gain.
 
-Until then the Submit button won't post — it shows an inline "not connected yet" notice
-instead, so nothing silently disappears into a dead endpoint.
-
-How it behaves once connected:
+How it behaves:
 
 - Submits via `fetch`, so the visitor stays on the page and gets an inline success message.
 - **With JS disabled it still works** — the form posts natively to the same endpoint and
