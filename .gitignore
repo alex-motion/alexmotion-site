@@ -1,5 +1,8 @@
-# Video masters are large and live in ~/Documents/_Jobs/... — regenerate with
-# the avconvert command in assets/video/README.md rather than versioning them.
-assets/video/*.mp4
+# Video is committed: the Anubis re-exports total ~53 MB, small enough to version
+# and to deploy straight from the repo. See assets/video/README.md.
+
+# Duplicate of what's already in assets/video/ — the raw After Effects export
+# drop. Safe to delete locally.
+assets/video-compressed/
 
 .DS_Store
