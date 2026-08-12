@@ -196,6 +196,75 @@ p:last-child { margin-bottom: 0; }
 .site-nav a:focus-visible { transform: translateY(-2px); }
 .site-nav a[aria-current="page"] { color: var(--mark); }
 
+/* --- "Work" submenu ------------------------------------------------------
+   Click to open rather than hover: hover menus are unreachable on touch, and a
+   button with aria-expanded is the accessible primitive. */
+.has-submenu { position: relative; }
+
+.submenu-toggle {
+  font: inherit;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  -webkit-text-stroke: .75px var(--outline);
+  text-shadow: -1px 1px var(--outline), -2px 2px var(--outline);
+  transition: transform .12s ease;
+}
+.submenu-toggle:hover { transform: translateY(-2px); }
+
+.submenu-toggle::after {
+  content: "";
+  border: .3em solid transparent;
+  border-top-color: var(--accent);
+  margin-top: .35em;
+  transition: transform .18s ease;
+}
+.submenu-toggle[aria-expanded="true"]::after { transform: rotate(180deg); margin-top: -.35em; }
+
+/* Scoped under .site-nav to outrank `.site-nav ul { display: flex }` above —
+   a bare `.submenu` loses that specificity contest and the menu never closes. */
+.site-nav .submenu {
+  position: absolute;
+  top: calc(100% + .75rem);
+  left: 0;
+  z-index: 200;
+  min-width: 15rem;
+  padding: .85rem 1.1rem;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .1rem;
+}
+.site-nav .submenu[data-open="true"] { display: flex; }
+
+.submenu li { width: 100%; }
+
+.submenu a {
+  font-size: 1.15rem;
+  display: block;
+  width: 100%;
+  padding: .3rem 0;
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+  color: var(--white);
+  white-space: nowrap;
+}
+.submenu a:hover,
+.submenu a:focus-visible { color: var(--accent); transform: none; }
+.submenu a[aria-current="page"] { color: var(--accent); }
+
 @media (max-width: 768px) {
   .nav-toggle { display: block; }
   .site-nav {
@@ -209,6 +278,16 @@ p:last-child { margin-bottom: 0; }
   /* No logo to align to once the menu is a dropdown. */
   .site-nav ul { flex-direction: column; align-items: flex-start; gap: 1rem; transform: none; }
   .site-nav a { font-size: 2rem; }
+  .submenu-toggle { font-size: 2rem; }
+
+  /* Inside the mobile panel the submenu expands inline rather than floating. */
+  .site-nav .submenu {
+    position: static;
+    min-width: 0;
+    margin: .75rem 0 0 1rem;
+    padding: .5rem .9rem;
+  }
+  .submenu a { font-size: 1.35rem; padding: .35rem 0; }
 }
 
 /* --- Sections ------------------------------------------------------------ */
@@ -551,10 +630,33 @@ p:last-child { margin-bottom: 0; }
 @media (max-width: 900px) { .icon-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 620px) { .icon-grid { grid-template-columns: repeat(2, 1fr); } }
 
+.icon-grid figure { margin: 0; }
+
 .icon-grid img {
   width: 100%;
   height: auto;
   border-radius: 12px;
+  display: block;
+}
+
+/* Name fades in under the icon on hover. The caption always occupies its line,
+   so revealing it never shifts the grid. */
+.icon-grid figcaption {
+  margin-top: .5rem;
+  text-align: center;
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--white);
+  opacity: 0;
+  transition: opacity .18s ease;
+}
+.icon-grid li:hover figcaption,
+.icon-grid li:focus-within figcaption { opacity: 1; }
+
+/* No hover on touch, so the names would never appear — show them permanently.
+   Same reasoning as the home cards' outline. */
+@media (hover: none), (max-width: 768px) {
+  .icon-grid figcaption { opacity: 1; }
 }
 
 /* --- About --------------------------------------------------------------- */

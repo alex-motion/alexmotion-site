@@ -14,6 +14,35 @@
     });
   }
 
+  /* --- "Work" submenu ----------------------------------------------------
+     Click-toggled, closes on Escape or an outside click. Escape returns focus to
+     the button so keyboard users aren't stranded at the top of the document. */
+  var subToggle = document.querySelector('.submenu-toggle');
+  var submenu = document.getElementById('work-menu');
+
+  if (subToggle && submenu) {
+    var setSub = function (open) {
+      submenu.setAttribute('data-open', String(open));
+      subToggle.setAttribute('aria-expanded', String(open));
+    };
+
+    subToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setSub(subToggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest || !e.target.closest('.has-submenu')) setSub(false);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && subToggle.getAttribute('aria-expanded') === 'true') {
+        setSub(false);
+        subToggle.focus();
+      }
+    });
+  }
+
   /* --- SYMBOL grid: tap to swap on touch devices --------------------------
      CSS :hover covers pointer devices. On touch, first tap reveals the hover
      state and taps elsewhere clear it. */
