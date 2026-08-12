@@ -537,6 +537,26 @@ p:last-child { margin-bottom: 0; }
 .form-status[data-state="ok"]    { color: var(--mark); }
 .form-status[data-state="error"] { color: #ffc9c9; }
 
+/* --- Icon grid -----------------------------------------------------------
+   Four across, as on the SYMBOL grid. These GIFs are rendered on the page's own
+   blue, so they need no card or backing to sit flush. */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1rem, 3vw, 2.5rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@media (max-width: 900px) { .icon-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 620px) { .icon-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.icon-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
 /* --- About --------------------------------------------------------------- */
 .about-layout {
   display: grid;
